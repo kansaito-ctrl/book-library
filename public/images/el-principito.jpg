@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef3c7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#bg)"/>
+  <text x="150" y="160" font-family="Georgia, serif" font-size="24" font-weight="bold" fill="#78350f" text-anchor="middle" letter-spacing="1">El</text>
+  <text x="150" y="200" font-family="Georgia, serif" font-size="24" font-weight="bold" fill="#78350f" text-anchor="middle" letter-spacing="1">principito</text>
+  <text x="150" y="280" font-family="Georgia, serif" font-size="14" fill="#78350f" text-anchor="middle" opacity="0.9">Antoine de Saint-Exupéry</text>
+  <text x="150" y="320" font-family="Georgia, serif" font-size="12" fill="#78350f" text-anchor="middle" opacity="0.7">Fábula / Infantil • 1943</text>
+  <rect x="75" y="360" width="150" height="2" fill="#78350f" opacity="0.3"/>
+  <circle cx="150" cy="340" r="50" fill="none" stroke="#78350f" stroke-width="2" opacity="0.5"/>
+  <polygon points="150,290 135,320 165,320" fill="#78350f" opacity="0.6"/>
+  <circle cx="150" cy="310" r="8" fill="#78350f" opacity="0.6"/>
+</svg>

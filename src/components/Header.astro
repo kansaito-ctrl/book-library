@@ -1,0 +1,61 @@
+---
+// Header.astro - Navegación principal
+---
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <nav class="container-custom" aria-label="Navegación principal">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2 text-primary-700 hover:text-primary-800 transition-colors" aria-label="BiblioEscuela - Inicio">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </svg>
+        <span class="font-display font-bold text-xl md:text-2xl hidden sm:block">BiblioEscuela</span>
+      </a>
+
+      <!-- Navegación desktop -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/" class="text-gray-600 hover:text-primary-600 transition-colors font-medium">Inicio</a>
+        <a href="/catalogo" class="text-gray-600 hover:text-primary-600 transition-colors font-medium">Catálogo</a>
+        <a href="/about" class="text-gray-600 hover:text-primary-600 transition-colors font-medium">Nosotros</a>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="flex items-center gap-4">
+        <a href="/catalogo" class="btn-primary hidden sm:inline-flex">Explorar catálogo</a>
+
+        <!-- Botón menú móvil -->
+        <button
+          class="md:hidden p-2 text-gray-600 hover:text-primary-600 transition-colors"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Abrir menú"
+          x-data="{ open: false }"
+          @click="open = !open"
+          :aria-expanded="open"
+        >
+          <template x-if="!open">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </template>
+          <template x-if="open">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </template>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú móvil -->
+    <div class="md:hidden overflow-hidden transition-all duration-300" x-show="open" x-collapse x-cloak id="mobile-menu">
+      <div class="py-4 border-t border-gray-100 flex flex-col gap-2">
+        <a href="/" class="px-4 py-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors font-medium">Inicio</a>
+        <a href="/catalogo" class="px-4 py-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors font-medium">Catálogo</a>
+        <a href="/about" class="px-4 py-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors font-medium">Nosotros</a>
+        <a href="/catalogo" class="btn-primary text-center mt-2 mx-4">Explorar catálogo</a>
+      </div>
+    </div>
+  </nav>
+</header>

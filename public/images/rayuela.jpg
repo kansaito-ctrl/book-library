@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3f0071;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#581c87;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#bg)"/>
+  <text x="150" y="180" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="#e9d5ff" text-anchor="middle">Rayuela</text>
+  <text x="150" y="280" font-family="Georgia, serif" font-size="14" fill="#e9d5ff" text-anchor="middle" opacity="0.9">Julio Cortázar</text>
+  <text x="150" y="320" font-family="Georgia, serif" font-size="12" fill="#e9d5ff" text-anchor="middle" opacity="0.7">Experimental • 1963</text>
+  <rect x="75" y="360" width="150" height="2" fill="#e9d5ff" opacity="0.3"/>
+  <!-- Tablero de rayuela -->
+  <g fill="#e9d5ff" opacity="0.3">
+    <rect x="90" y="300" width="30" height="30" rx="4"/>
+    <rect x="125" y="300" width="30" height="30" rx="4"/>
+    <rect x="160" y="300" width="30" height="30" rx="4"/>
+    <rect x="107" y="335" width="30" height="30" rx="4"/>
+    <rect x="142" y="335" width="30" height="30" rx="4"/>
+    <rect x="125" y="370" width="30" height="30" rx="4"/>
+  </g>
+</svg>

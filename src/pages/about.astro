@@ -1,0 +1,208 @@
+---
+// about.astro - Página "Nosotros / Contacto"
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import booksData from '../data/books.json';
+
+const books = booksData as typeof booksData;
+const stats = {
+  totalBooks: books.length,
+  availableBooks: books.filter(b => b.available).length,
+  genres: [...new Set(books.map(b => b.genre))].length,
+  avgRating: (books.reduce((acc, b) => acc + b.rating, 0) / books.length).toFixed(1),
+};
+---
+
+<Layout title="Nosotros - BiblioEscuela" description="Conoce más sobre BiblioEscuela, tu librería digital escolar. Misión, equipo y contacto.">
+  <Header />
+
+  <main>
+    <!-- Hero -->
+    <section class="bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 text-white py-20 md:py-28">
+      <div class="container-custom text-center">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">Sobre BiblioEscuela</h1>
+        <p class="text-xl text-primary-100 max-w-3xl mx-auto leading-relaxed">
+          Un prototipo de librería digital diseñado para proyecto escolar. Catálogo curado, búsqueda inteligente y fichas detalladas para descubrir tu próxima gran lectura.
+        </p>
+      </div>
+    </section>
+
+    <!-- Misión y valores -->
+    <section class="section bg-white" aria-labelledby="mission-heading">
+      <div class="container-custom">
+        <header class="text-center mb-16">
+          <h2 id="mission-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">Nuestra misión</h2>
+          <p class="text-gray-600 text-lg max-w-2xl mx-auto">Democratizar el acceso a la literatura de calidad mediante una plataforma digital intuitiva y accesible.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            {
+              icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>`,
+              title: 'Acceso abierto',
+              desc: 'Catálogo libre y accesible para toda la comunidad educativa sin barreras.'
+            },
+            {
+              icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>`,
+              title: 'Curación de calidad',
+              desc: 'Selección cuidada de obras imprescindibles: clásicos, contemporáneos y joyas ocultas.'
+            },
+            {
+              icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`,
+              title: 'Experiencia rápida',
+              desc: 'Búsqueda instantánea, filtros en tiempo real y carga optimizada para cualquier dispositivo.'
+            }
+          ].map(item => (
+            <article class="text-center p-6 rounded-xl bg-warm-50 hover:bg-warm-100 transition-colors">
+              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100 text-primary-600 mb-4">
+                {item.icon}
+              </div>
+              <h3 class="font-display text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+              <p class="text-gray-600">{item.desc}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Estadísticas -->
+    <section class="section bg-gray-900 text-white" aria-labelledby="stats-heading">
+      <div class="container-custom">
+        <h2 id="stats-heading" class="sr-only">Estadísticas del catálogo</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div class="text-4xl md:text-5xl font-display font-bold text-amber-300">{stats.totalBooks}+</div>
+            <div class="text-gray-400 mt-1">Libros en catálogo</div>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-display font-bold text-amber-300">{stats.availableBooks}</div>
+            <div class="text-gray-400 mt-1">Disponibles ahora</div>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-display font-bold text-amber-300">{stats.genres}</div>
+            <div class="text-gray-400 mt-1">Géneros distintos</div>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-display font-bold text-amber-300">{stats.avgRating}</div>
+            <div class="text-gray-400 mt-1">Valoración media</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equipo / Proyecto -->
+    <section class="section bg-white" aria-labelledby="team-heading">
+      <div class="container-custom">
+        <header class="text-center mb-12">
+          <h2 id="team-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">Proyecto escolar</h2>
+          <p class="text-gray-600 text-lg max-w-2xl mx-auto">Desarrollado como prototipo funcional para demostrar competencias en desarrollo web moderno.</p>
+        </header>
+
+        <div class="max-w-3xl mx-auto space-y-8">
+          <article class="p-6 bg-warm-50 rounded-xl">
+            <h3 class="font-display text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+              Stack tecnológico
+            </h3>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-500 rounded-full"></span> <strong>Astro 4</strong> — Framework web moderno, rápido y SEO-friendly</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-500 rounded-full"></span> <strong>Tailwind CSS</strong> — Estilos utility-first, responsive y mantenibles</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-500 rounded-full"></span> <strong>Alpine.js</strong> — Interactividad ligera sin build complejo</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-500 rounded-full"></span> <strong>TypeScript</strong> — Tipado estático para mayor robustez</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-500 rounded-full"></span> <strong>JSON local</strong> — Datos simples sin base de datos (prototipo)</li>
+            </ul>
+          </article>
+
+          <article class="p-6 bg-warm-50 rounded-xl">
+            <h3 class="font-display text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Funcionalidades implementadas
+            </h3>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Catálogo con 12 libros reales (datos completos)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Búsqueda en tiempo real (título, autor, ISBN, género)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Filtro por género con selector</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Ordenación múltiple (título, autor, año, rating)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Fichas de detalle con sinopsis extendida</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Libros relacionados por género</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Diseño responsive (mobile-first)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Accesibilidad (ARIA, semántica, contraste)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> SEO optimizado (meta tags, Open Graph, sitemap)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> URLs compartibles con parámetros de búsqueda</li>
+            </ul>
+          </article>
+
+          <article class="p-6 bg-warm-50 rounded-xl">
+            <h3 class="font-display text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Próximas mejoras (ideas)
+            </h3>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Autenticación de usuarios (login/registro)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Panel de administración (CRUD libros)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Sistema de reseñas y valoraciones reales</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Carrito de préstamos / lista de deseos</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Modo oscuro / claro</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> PWA (instalable, offline-first)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Base de datos real (SQLite/PostgreSQL)</li>
+              <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> API REST para frontend desacoplado</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section class="section bg-warm-50" aria-labelledby="contact-heading">
+      <div class="container-custom">
+        <div class="max-w-2xl mx-auto">
+          <header class="text-center mb-10">
+            <h2 id="contact-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">Contacto</h2>
+            <p class="text-gray-600 text-lg">¿Tienes dudas, sugerencias o quieres colaborar? Escríbenos.</p>
+          </header>
+
+          <form class="bg-white rounded-xl shadow-sm p-6 md:p-8 space-y-6" action="#" method="POST">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="name" class="label">Nombre</label>
+                <input type="text" id="name" name="name" class="input" placeholder="Tu nombre" required />
+              </div>
+              <div>
+                <label for="email" class="label">Email</label>
+                <input type="email" id="email" name="email" class="input" placeholder="tu@email.com" required />
+              </div>
+            </div>
+            <div>
+              <label for="subject" class="label">Asunto</label>
+              <select id="subject" name="subject" class="input" required>
+                <option value="">Selecciona un tema</option>
+                <option value="general">Consulta general</option>
+                <option value="suggestion">Sugerencia de libro</option>
+                <option value="bug">Reportar error</option>
+                <option value="collaboration">Colaboración</option>
+                <option value="other">Otro</option>
+              </select>
+            </div>
+            <div>
+              <label for="message" class="label">Mensaje</label>
+              <textarea id="message" name="message" rows="5" class="input resize-y" placeholder="Cuéntanos en qué podemos ayudarte..." required></textarea>
+            </div>
+            <button type="submit" class="btn-primary w-full md:w-auto">
+              Enviar mensaje
+            </button>
+            <p class="text-xs text-gray-500 text-center">Formulario de demostración — no envía emails reales.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

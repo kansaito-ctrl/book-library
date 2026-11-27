@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#422006;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#78350f;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#bg)"/>
+  <text x="150" y="140" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#fde68a" text-anchor="middle">El nombre</text>
+  <text x="150" y="180" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#fde68a" text-anchor="middle">de la rosa</text>
+  <text x="150" y="280" font-family="Georgia, serif" font-size="14" fill="#fde68a" text-anchor="middle" opacity="0.9">Umberto Eco</text>
+  <text x="150" y="320" font-family="Georgia, serif" font-size="12" fill="#fde68a" text-anchor="middle" opacity="0.7">Misterio histórico • 1980</text>
+  <rect x="75" y="360" width="150" height="2" fill="#fde68a" opacity="0.3"/>
+  <!-- Rosa -->
+  <g transform="translate(150, 330)">
+    <ellipse cx="0" cy="0" rx="20" ry="12" fill="#fde68a" opacity="0.4"/>
+    <ellipse cx="0" cy="0" rx="15" ry="8" fill="#fde68a" opacity="0.6"/>
+    <path d="M0,-8 Q-10,-15 -5,-20 Q0,-18 5,-20 Q10,-15 0,-8" fill="#fde68a" opacity="0.8"/>
+  </g>
+</svg>

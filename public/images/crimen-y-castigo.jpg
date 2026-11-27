@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7f1d1d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#991b1b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="450" fill="url(#bg)"/>
+  <text x="150" y="160" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#fecaca" text-anchor="middle">Crimen y</text>
+  <text x="150" y="200" font-family="Georgia, serif" font-size="22" font-weight="bold" fill="#fecaca" text-anchor="middle">castigo</text>
+  <text x="150" y="280" font-family="Georgia, serif" font-size="14" fill="#fecaca" text-anchor="middle" opacity="0.9">Fiódor Dostoyevski</text>
+  <text x="150" y="320" font-family="Georgia, serif" font-size="12" fill="#fecaca" text-anchor="middle" opacity="0.7">Psicológico • 1866</text>
+  <rect x="75" y="360" width="150" height="2" fill="#fecaca" opacity="0.3"/>
+  <polygon points="150,290 130,330 170,330" fill="#fecaca" opacity="0.5"/>
+  <rect x="145" y="330" width="10" height="30" fill="#fecaca" opacity="0.5"/>
+</svg>

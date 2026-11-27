@@ -1,0 +1,66 @@
+---
+// catalogo.astro - Página de catálogo con búsqueda y filtros
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchFilter from '../components/SearchFilter.astro';
+import booksData from '../data/books.json';
+
+const books = booksData as typeof booksData;
+const genres = [...new Set(books.map(b => b.genre))].sort();
+
+// Obtener parámetros de URL
+const url = new URL(Astro.request.url);
+const searchQuery = url.searchParams.get('q') || '';
+const selectedGenre = url.searchParams.get('genre') || '';
+---
+
+<Layout title="Catálogo completo - BiblioEscuela" description="Explora nuestro catálogo completo de libros. Busca por título, autor o ISBN, y filtra por género.">
+  <Header />
+
+  <main class="section">
+    <div class="container-custom">
+      <!-- Header del catálogo -->
+      <header class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-2">Catálogo completo</h1>
+        <p class="text-gray-600 text-lg">Explora nuestra colección de {books.length} libros. Usa la búsqueda y los filtros para encontrar tu próxima lectura.</p>
+      </header>
+
+      <!-- Búsqueda y filtros -->
+      <SearchFilter
+        genres={genres}
+        selectedGenre={selectedGenre}
+        searchQuery={searchQuery}
+      />
+
+      <!-- Grid de libros -->
+      <section aria-labelledby="books-heading">
+        <h2 id="books-heading" class="sr-only">Lista de libros</h2>
+        <div
+          id="books-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          data-books={JSON.stringify(books)}
+          role="list"
+        >
+          {books.map(book => (
+            <BookCard book={book} variant="default" />
+          ))}
+        </div>
+      </section>
+
+      <!-- Mensaje cuando no hay resultados (fallback sin JS) -->
+      <noscript>
+        <div class="text-center py-12" id="no-js-message">
+          <p class="text-gray-600">Activa JavaScript para usar la búsqueda y filtros en tiempo real.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+            {books.map(book => (
+              <BookCard book={book} variant="default" />
+            ))}
+          </div>
+        </div>
+      </noscript>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,159 @@
+---
+// index.astro - Página de inicio
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BookCard from '../components/BookCard.astro';
+import booksData from '../data/books.json';
+
+const books = booksData as typeof booksData;
+const featuredBooks = books.filter(b => b.featured).slice(0, 4);
+const genres = [...new Set(books.map(b => b.genre))].slice(0, 6);
+---
+
+<Layout title="BiblioEscuela - Tu librería digital escolar" description="Descubre nuestra selección de libros clásicos y contemporáneos. Catálogo, reseñas y disponibilidad en tiempo real.">
+  <Header />
+
+  <main>
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 text-white overflow-hidden">
+      <div class="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5" aria-hidden="true"></div>
+      <div class="container-custom relative py-20 md:py-28 lg:py-32">
+        <div class="max-w-3xl animate-fade-in">
+          <span class="inline-block px-4 py-1.5 bg-white/20 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
+            📚 Prototipo escolar - Catálogo digital
+          </span>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight mb-6 text-balance">
+            Descubre tu próxima
+            <br />
+            <span class="text-amber-300">gran lectura</span>
+          </h1>
+          <p class="text-lg md:text-xl text-primary-100 mb-8 leading-relaxed max-w-2xl">
+            Explora nuestro catálogo curado de clásicos universales, bestsellers contemporáneos y joyas literarias. Busca, filtra y encuentra tu libro ideal.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/catalogo" class="btn bg-white text-primary-700 hover:bg-primary-50 text-lg px-8 py-4 shadow-xl hover:shadow-2xl">
+              Explorar catálogo
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+            <a href="/about" class="btn bg-white/10 text-white border-2 border-white/30 hover:bg-white/20 text-lg px-8 py-4 backdrop-blur-sm">
+              Conócenos
+            </a>
+          </div>
+        </div>
+
+        <!-- Stats decorativos -->
+        <div class="absolute bottom-0 left-0 right-0 -translate-y-1/2 md:translate-y-0 md:bottom-auto md:top-0 md:right-0 md:left-auto md:w-64 md:h-full flex items-center justify-center md:items-start md:justify-end pt-12 md:pt-0 pr-8 animate-slide-up" style="animation-delay: 200ms;">
+          <div class="grid grid-cols-3 gap-4 text-center hidden md:grid">
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+              <div class="text-3xl md:text-4xl font-display font-bold text-amber-300">12+</div>
+              <div class="text-sm text-primary-200">Libros en catálogo</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+              <div class="text-3xl md:text-4xl font-display font-bold text-amber-300">8</div>
+              <div class="text-sm text-primary-200">Géneros disponibles</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+              <div class="text-3xl md:text-4xl font-display font-bold text-amber-300">4.7</div>
+              <div class="text-sm text-primary-200">Valoración media</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Libros destacados -->
+    <section class="section bg-white" aria-labelledby="featured-heading">
+      <div class="container-custom">
+        <header class="text-center mb-12">
+          <h2 id="featured-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">Libros destacados</h2>
+          <p class="text-gray-600 text-lg max-w-2xl mx-auto">Una selección de los imprescindibles que no pueden faltar en tu biblioteca personal</p>
+        </header>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" role="list">
+          {featuredBooks.map(book => (
+            <BookCard book={book} variant="featured" />
+          ))}
+        </div>
+
+        <div class="text-center mt-10">
+          <a href="/catalogo" class="btn-primary inline-flex items-center gap-2">
+            Ver todo el catálogo
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Explora por género -->
+    <section class="section bg-warm-50" aria-labelledby="genres-heading">
+      <div class="container-custom">
+        <header class="text-center mb-12">
+          <h2 id="genres-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">Explora por género</h2>
+          <p class="text-gray-600 text-lg max-w-2xl mx-auto">Encuentra tu próxima lectura filtrando por tus categorías favoritas</p>
+        </header>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {genres.map(genre => (
+            <a
+              href={`/catalogo?genre=${encodeURIComponent(genre)}`}
+              class="group bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-primary-200"
+            >
+              <div class="w-16 h-16 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+                {getGenreIcon(genre)}
+              </div>
+              <h3 class="font-display font-medium text-gray-900 group-hover:text-primary-600 transition-colors">{genre}</h3>
+            </a>
+          ))}
+        </div>
+
+        <div class="text-center mt-10">
+          <a href="/catalogo" class="btn-secondary inline-flex items-center gap-2">
+            Ver todos los géneros
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="section bg-gray-900 text-white" aria-labelledby="cta-heading">
+      <div class="container-custom text-center">
+        <h2 id="cta-heading" class="text-3xl md:text-4xl font-display font-bold mb-4">¿Listo para tu próxima aventura literaria?</h2>
+        <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">Más de 12 libros esperando ser descubiertos. Búsqueda instantánea, filtros por género y fichas detalladas.</p>
+        <a href="/catalogo" class="btn bg-amber-500 text-gray-900 hover:bg-amber-400 text-lg px-10 py-4 shadow-xl">
+          Empezar a explorar
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Iconos SVG para cada género
+  function getGenreIcon(genre) {
+    const icons: Record<string, string> = {
+      'Realismo mágico': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      'Distopía': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.24c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>',
+      'Fábula / Infantil': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.24c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>',
+      'Clásico / Novela de caballerías': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      'Historia / Ciencia popular': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      'Misterio / Histórico': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      'Psicológico / Clásico': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      'Fantasía / Aventura': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      'Romance / Clásico': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
+      'Experimental / Vanguardia': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      'Misterio histórico / Intelectual': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+      'Clásico / Drama social': '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>',
+    };
+    return icons[genre] || '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>';
+  }
+</script>
