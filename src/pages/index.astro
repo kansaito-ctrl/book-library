@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BookCard from '../components/BookCard.astro';
+import { Fragment } from 'astro/fragment';
 import booksData from '../data/books.json';
 
 const books = booksData as typeof booksData;
@@ -123,7 +124,7 @@ function getGenreIcon(genre: string): string {
               class="group bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-primary-200"
             >
               <div class="w-16 h-16 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
-                {getGenreIcon(genre)}
+                <Fragment set:html={getGenreIcon(genre)} />
               </div>
               <h3 class="font-display font-medium text-gray-900 group-hover:text-primary-600 transition-colors">{genre}</h3>
             </a>
