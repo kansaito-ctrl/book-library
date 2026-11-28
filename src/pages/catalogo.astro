@@ -22,9 +22,25 @@ const selectedGenre = url.searchParams.get('genre') || '';
   <main class="section">
     <div class="container-custom">
       <!-- Header del catálogo -->
-      <header class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-gray-100 mb-2">Catálogo completo</h1>
-        <p class="text-gray-600 dark:text-gray-400 text-lg">Explora nuestra colección de {books.length} libros. Usa la búsqueda y los filtros para encontrar tu próxima lectura.</p>
+      <header class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-gray-100 mb-2">Catálogo completo</h1>
+          <p class="text-gray-600 dark:text-gray-400 text-lg">Explora nuestra colección de {books.length} libros. Usa la búsqueda y los filtros para encontrar tu próxima lectura.</p>
+        </div>
+        <div class="flex flex-wrap gap-2" id="export-buttons">
+          <button type="button" id="export-csv" class="btn-secondary text-sm" aria-label="Exportar catálogo a CSV">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            CSV
+          </button>
+          <button type="button" id="export-pdf" class="btn-secondary text-sm" aria-label="Exportar catálogo a PDF">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            PDF
+          </button>
+        </div>
       </header>
 
       <!-- Búsqueda y filtros -->
@@ -78,3 +94,87 @@ const selectedGenre = url.searchParams.get('genre') || '';
 
   <Footer />
 </Layout>
+
+<script>
+  // Export functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const booksData = JSON.parse(document.getElementById('books-grid').dataset.books || '[]');
+
+    // Get filtered books from Alpine component
+    function getFilteredBooks() {
+      const searchFilterEl = document.querySelector('[x-data="searchFilter"]');
+      if (searchFilterEl && searchFilterEl.__x) {
+        return searchFilterEl.__x.getUnobservedData().filteredBooks;
+      }
+      return booksData;
+    }
+
+    // Export to CSV
+    document.getElementById('export-csv')?.addEventListener('click', () => {
+      const books = getFilteredBooks();
+      const headers = ['Título', 'Autor', 'Género', 'Año', 'Páginas', 'ISBN', 'Disponible', 'Rating'];
+      const rows = books.map(book => [
+        `"${book.title}"`,
+        `"${book.author}"`,
+        `"${book.genre}"`,
+        book.year,
+        book.pages,
+        `"${book.isbn}"`,
+        book.available ? 'Sí' : 'No',
+        book.rating
+      ]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `catalogo-biblioescuela-${new Date().toISOString().split('T')[0]}.csv`;
+      link.click();
+
+      showToast('Catálogo exportado a CSV', 'success');
+    });
+
+    // Export to PDF
+    document.getElementById('export-pdf')?.addEventListener('click', async () => {
+      const books = getFilteredBooks();
+      const { jsPDF } = window.jspdf || await import('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
+      const doc = new jsPDF();
+
+      doc.setFontSize(20);
+      doc.text('Catálogo BiblioEscuela', 14, 22);
+      doc.setFontSize(10);
+      doc.text(`Exportado: ${new Date().toLocaleDateString('es-ES')} | ${getFilteredBooks().length} libros`, 14, 28);
+
+      let y = 36;
+      getFilteredBooks().forEach((book, i) => {
+        if (y > 270) { doc.addPage(); y = 14; }
+        doc.setFontSize(11);
+        doc.setFont(undefined, 'bold');
+        doc.text(`${i + 1}. ${book.title}`, 14, y);
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(9);
+        y += 6;
+        doc.text(`Autor: ${book.author} | Género: ${book.genre} | Año: ${book.year}`, 14, y);
+        y += 5;
+        doc.text(`Páginas: ${book.pages} | ISBN: ${book.isbn} | ${book.available ? 'Disponible' : 'Prestado'} | ★ ${book.rating}`, 14, y);
+        y += 10;
+      });
+
+      doc.save(`catalogo-biblioescuela-${new Date().toISOString().split('T')[0]}.pdf`);
+      showToast('Catálogo exportado a PDF', 'success');
+    });
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type} pointer-events-auto`;
+      toast.setAttribute('role', 'alert');
+      toast.setAttribute('aria-live', 'polite');
+      toast.innerHTML = `<span>${message}</span><button type="button" class="ml-4 text-white/80 hover:text-white transition-opacity" aria-label="Cerrar"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>`;
+      toast.querySelector('button').addEventListener('click', () => { toast.classList.add('animate-slide-out'); setTimeout(() => toast.remove(), 200); });
+      container.appendChild(toast);
+      setTimeout(() => { if (toast.parentElement) { toast.classList.add('animate-slide-out'); setTimeout(() => toast.remove(), 200); } }, 4000);
+    }
+  });
+</script>
