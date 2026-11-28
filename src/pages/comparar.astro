@@ -98,12 +98,7 @@ const selectedBooks = [book1, book2, book3].filter(Boolean) as typeof books;
                           <br />
                           <span class="text-gray-500 dark:text-gray-400">{book.author}</span>
                         </div>
-                        <a
-                          href={`/libro/${book.slug}`}
-                          class="btn-secondary text-xs mt-1"
-                        >
-                          Ver ficha
-                        </a>
+                        <a href={`/libro/${book.slug}`} class="btn-secondary text-xs mt-1">Ver ficha</a>
                       </div>
                     </th>
                   ))}
