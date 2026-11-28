@@ -1,0 +1,15 @@
+---
+// admin/[...paths].astro - TinaCMS Admin entry point
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  return [{ params: { paths: ['index'] } }];
+}
+---
+
+<Layout title="Admin - BiblioEscuela" description="Panel de administración para gestionar libros">
+  <script is:inline>
+    // TinaCMS se inicializa aquí en desarrollo
+    // En producción, TinaCMS sirve su propia UI en /admin
+  </script>
+</Layout>
