@@ -23,26 +23,26 @@ const relatedBooks = books.filter(b => b.genre === book.genre && b.id !== book.i
 
   <main>
     <!-- Breadcrumb -->
-    <nav class="bg-warm-50 py-4" aria-label="Navegación">
+    <nav class="bg-warm-50 dark:bg-gray-800/50 py-4" aria-label="Navegación">
       <div class="container-custom">
         <ol class="flex items-center gap-2 text-sm" role="list">
-          <li><a href="/" class="text-gray-500 hover:text-primary-600">Inicio</a></li>
-          <li class="text-gray-400" aria-hidden="true">/</li>
-          <li><a href="/catalogo" class="text-gray-500 hover:text-primary-600">Catálogo</a></li>
-          <li class="text-gray-400" aria-hidden="true">/</li>
-          <li><span class="text-gray-900 font-medium truncate max-w-xs" aria-current="page">{book.title}</span></li>
+          <li><a href="/" class="text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">Inicio</a></li>
+          <li class="text-gray-400 dark:text-gray-500" aria-hidden="true">/</li>
+          <li><a href="/catalogo" class="text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">Catálogo</a></li>
+          <li class="text-gray-400 dark:text-gray-500" aria-hidden="true">/</li>
+          <li><span class="text-gray-900 dark:text-gray-100 font-medium truncate max-w-xs" aria-current="page">{book.title}</span></li>
         </ol>
       </div>
     </nav>
 
     <!-- Ficha del libro -->
-    <section class="section bg-white" aria-labelledby="book-title">
+    <section class="section" aria-labelledby="book-title">
       <div class="container-custom">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           <!-- Portada y info principal -->
           <div class="lg:col-span-1">
             <div class="sticky top-24">
-              <div class="relative aspect-[2/3] rounded-xl overflow-hidden shadow-2xl bg-gray-100">
+              <div class="relative aspect-[2/3] rounded-xl overflow-hidden shadow-2xl bg-gray-100 dark:bg-gray-700">
                 <img
                   src={book.cover}
                   alt={`Portada de ${book.title}`}
@@ -59,7 +59,7 @@ const relatedBooks = books.filter(b => b.genre === book.genre && b.id !== book.i
                   {book.available ? 'Disponible para préstamo' : 'Actualmente prestado'}
                 </span>
                 {book.featured && (
-                  <span class="badge bg-amber-100 text-amber-800">Destacado</span>
+                  <span class="badge bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">Destacado</span>
                 )}
               </div>
 
@@ -67,12 +67,12 @@ const relatedBooks = books.filter(b => b.genre === book.genre && b.id !== book.i
               <div class="mt-4 flex items-center gap-3">
                 <div class="flex items-center gap-1" aria-label={`Valoración: ${book.rating} de 5 estrellas`}>
                   {[...Array(5)].map((_, i) => (
-                    <svg class="w-5 h-5 {i < Math.round(book.rating) ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <svg class="w-5 h-5 {i < Math.round(book.rating) ? 'fill-amber-400 text-amber-400' : 'text-gray-300 dark:text-gray-600'}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                     </svg>
                   ))}
                 </div>
-                <span class="text-gray-600 text-sm">{book.rating}/5 ({book.id * 127} reseñas)</span>
+                <span class="text-gray-600 dark:text-gray-400 text-sm">{book.rating}/5 ({book.id * 127} reseñas)</span>
               </div>
 
               <!-- Acciones -->
@@ -92,11 +92,27 @@ const relatedBooks = books.filter(b => b.genre === book.genre && b.id !== book.i
                     Reservar (prestado)
                   </button>
                 )}
-                <button class="btn-secondary w-full text-center">
-                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                  </svg>
-                  Añadir a favoritos
+                <button
+                  type="button"
+                  class="btn-secondary w-full text-center gap-2 justify-center"
+                  x-data="favoriteButton()"
+                  @click="toggle($event)"
+                  :class="{ 'bg-amber-500 text-gray-900 border-amber-500': isFavorite }"
+                  :aria-label="isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'"
+                  :aria-pressed="isFavorite"
+                >
+                  <template x-if="!isFavorite">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <span>Añadir a favoritos</span>
+                  </template>
+                  <template x-if="isFavorite">
+                    <svg class="w-5 h-5 fill-current" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    <span>En favoritos</span>
+                  </template>
                 </button>
                 <button class="btn-secondary w-full text-center">
                   <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -111,33 +127,33 @@ const relatedBooks = books.filter(b => b.genre === book.genre && b.id !== book.i
           <!-- Información detallada -->
           <div class="lg:col-span-2">
             <header class="mb-6">
-              <h1 id="book-title" class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">{book.title}</h1>
-              <p class="text-xl text-gray-600">por <span class="font-medium text-gray-900">{book.author}</span></p>
+              <h1 id="book-title" class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-3">{book.title}</h1>
+              <p class="text-xl text-gray-600 dark:text-gray-400">por <span class="font-medium text-gray-900 dark:text-gray-100">{book.author}</span></p>
             </header>
 
             <!-- Metadatos -->
-            <dl class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 p-4 bg-warm-50 rounded-xl">
+            <dl class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 p-4 bg-warm-50 dark:bg-gray-800/50 rounded-xl">
               <div>
-                <dt class="text-xs text-gray-500 uppercase tracking-wide">Año</dt>
-                <dd class="font-medium text-gray-900">{book.year}</dd>
+                <dt class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Año</dt>
+                <dd class="font-medium text-gray-900 dark:text-gray-100">{book.year}</dd>
               </div>
               <div>
-                <dt class="text-xs text-gray-500 uppercase tracking-wide">Páginas</dt>
-                <dd class="font-medium text-gray-900">{book.pages}</dd>
+                <dt class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Páginas</dt>
+                <dd class="font-medium text-gray-900 dark:text-gray-100">{book.pages}</dd>
               </div>
               <div>
-                <dt class="text-xs text-gray-500 uppercase tracking-wide">ISBN</dt>
-                <dd class="font-medium text-gray-900 text-sm font-mono">{book.isbn}</dd>
+                <dt class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">ISBN</dt>
+                <dd class="font-medium text-gray-900 dark:text-gray-100 text-sm font-mono">{book.isbn}</dd>
               </div>
               <div>
-                <dt class="text-xs text-gray-500 uppercase tracking-wide">Género</dt>
-                <dd class="font-medium text-gray-900">{book.genre}</dd>
+                <dt class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Género</dt>
+                <dd class="font-medium text-gray-900 dark:text-gray-100">{book.genre}</dd>
               </div>
             </dl>
 
             <!-- Descripción larga -->
-            <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-              <h2 class="font-display text-2xl font-bold text-gray-900 mb-4">Sinopsis</h2>
+            <div class="prose prose-lg max-w-none text-gray-700 dark:text-gray-300 leading-relaxed">
+              <h2 class="font-display text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Sinopsis</h2>
               <div class="whitespace-pre-wrap">{book.longDescription}</div>
             </div>
           </div>
@@ -147,11 +163,11 @@ const relatedBooks = books.filter(b => b.genre === book.genre && b.id !== book.i
 
     <!-- Libros relacionados -->
     {relatedBooks.length > 0 && (
-      <section class="section bg-warm-50" aria-labelledby="related-heading">
+      <section class="section bg-warm-50 dark:bg-gray-900/50" aria-labelledby="related-heading">
         <div class="container-custom">
           <header class="mb-8">
-            <h2 id="related-heading" class="text-2xl md:text-3xl font-display font-bold text-gray-900">Más libros de {book.genre}</h2>
-            <p class="text-gray-600">Si te gustó este, te pueden interesar estos títulos del mismo género</p>
+            <h2 id="related-heading" class="text-2xl md:text-3xl font-display font-bold text-gray-900 dark:text-gray-100">Más libros de {book.genre}</h2>
+            <p class="text-gray-600 dark:text-gray-400">Si te gustó este, te pueden interesar estos títulos del mismo género</p>
           </header>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">

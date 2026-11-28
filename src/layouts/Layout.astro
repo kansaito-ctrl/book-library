@@ -8,7 +8,7 @@ const { title, description = "Prototipo de librería de libros para escuela - Ca
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,11 +22,26 @@ const { title, description = "Prototipo de librería de libros para escuela - Ca
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="theme-color" content="#0ea5e9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c4a6e" media="(prefers-color-scheme: dark)" />
   </head>
-  <body class="font-body antialiased text-gray-900 bg-warm-50 min-h-screen flex flex-col">
+  <body class="font-body antialiased text-gray-800 dark:text-gray-200 bg-warm-50 dark:bg-gray-950 min-h-screen flex flex-col">
+    <!-- Dark mode initialization (runs before paint to prevent flash) -->
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = stored ? stored === 'dark' : prefersDark;
+        document.documentElement.classList.toggle('dark', isDark);
+      })();
+    </script>
+
     <slot />
 
     <!-- Alpine.js para interactividad ligera -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Toast container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none" aria-live="polite" aria-atomic="true"></div>
   </body>
 </html>

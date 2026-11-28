@@ -31,7 +31,7 @@ const isFeatured = variant === 'featured';
 
 <article class="card group h-full flex flex-col" aria-labelledby={`book-title-${book.id}`}>
   <!-- Imagen de portada -->
-  <div class="relative aspect-[2/3] overflow-hidden bg-gray-100">
+  <div class="relative aspect-[2/3] overflow-hidden bg-gray-100 dark:bg-gray-700">
     <img
       src={book.cover}
       alt=""
@@ -75,7 +75,7 @@ const isFeatured = variant === 'featured';
     <!-- Título -->
     <h3
       id={`book-title-${book.id}`}
-      class="font-display text-lg md:text-xl font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors"
+      class="font-display text-lg md:text-xl font-medium text-gray-900 dark:text-gray-100 mb-2 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
     >
       <a href={`/libro/${book.slug}`} class="hover:underline">
         {book.title}
@@ -83,7 +83,7 @@ const isFeatured = variant === 'featured';
     </h3>
 
     <!-- Autor -->
-    <p class="text-gray-600 text-sm mb-3 flex items-center gap-1">
+    <p class="text-gray-600 dark:text-gray-400 text-sm mb-3 flex items-center gap-1">
       <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
@@ -91,7 +91,7 @@ const isFeatured = variant === 'featured';
     </p>
 
     <!-- Metadatos compactos -->
-    <div class="flex flex-wrap items-center gap-3 text-xs text-gray-500 mb-3">
+    <div class="flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-3">
       <span class="flex items-center gap-1">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -114,13 +114,13 @@ const isFeatured = variant === 'featured';
 
     <!-- Descripción (solo en default/featured) -->
     {!isCompact && (
-      <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
+      <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
         {book.description}
       </p>
     )}
 
-    <!-- Acción principal -->
-    <div class="mt-auto pt-3 border-t border-gray-100">
+    <!-- Acciones -->
+    <div class="mt-auto pt-3 border-t border-gray-100 dark:border-gray-700 flex flex-col gap-2">
       {isFeatured ? (
         <a href={`/libro/${book.slug}`} class="btn-primary w-full text-center">
           Ver ficha completa
@@ -130,9 +130,106 @@ const isFeatured = variant === 'featured';
           Ver detalles
         </a>
       )}
+
+      <!-- Favoritos button -->
+      <button
+        type="button"
+        class="btn-secondary w-full text-center gap-2 justify-center"
+        x-data="favoriteButton()"
+        @click="toggle($event)"
+        :class="{ 'bg-amber-500 text-gray-900 border-amber-500': isFavorite }"
+        :aria-label="isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'"
+        :aria-pressed="isFavorite"
+      >
+        <template x-if="!isFavorite">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          <span>Añadir a favoritos</span>
+        </template>
+        <template x-if="isFavorite">
+          <svg class="w-5 h-5 fill-current" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          <span>En favoritos</span>
+        </template>
+      </button>
     </div>
   </div>
 </article>
+
+<script>
+  // Alpine.js component for favorite button with toast
+  function favoriteButton() {
+    return {
+      isFavorite: false,
+
+      init() {
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        this.isFavorite = favorites.includes(this.$el.closest('article').querySelector('h3 a').href);
+      },
+
+      toggle(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const article = this.$el.closest('article');
+        const link = article.querySelector('h3 a');
+        const bookUrl = link.href;
+        const bookTitle = link.textContent.trim();
+
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const index = favorites.indexOf(bookUrl);
+
+        if (index > -1) {
+          favorites.splice(index, 1);
+          this.isFavorite = false;
+          this.showToast(`${bookTitle} eliminado de favoritos`, 'info');
+        } else {
+          favorites.push(bookUrl);
+          this.isFavorite = true;
+          this.showToast(`${bookTitle} añadido a favoritos`, 'success');
+        }
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+      },
+
+      showToast(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type} pointer-events-auto`;
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'polite');
+        toast.innerHTML = `
+          <span>${message}</span>
+          <button type="button" class="ml-4 text-white/80 hover:text-white transition-opacity" aria-label="Cerrar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        `;
+
+        // Add close handler
+        toast.querySelector('button').addEventListener('click', () => {
+          toast.classList.add('animate-slide-out');
+          setTimeout(() => toast.remove(), 200);
+        });
+
+        container.appendChild(toast);
+
+        // Auto remove after 4 seconds
+        setTimeout(() => {
+          if (toast.parentElement) {
+            toast.classList.add('animate-slide-out');
+            setTimeout(() => toast.remove(), 200);
+          }
+        }, 4000);
+      }
+    }
+  }
+</script>
 
 <style>
   .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }

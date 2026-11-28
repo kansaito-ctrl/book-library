@@ -29,11 +29,11 @@ const stats = {
     </section>
 
     <!-- Misión y valores -->
-    <section class="section bg-white" aria-labelledby="mission-heading">
+    <section class="section bg-white dark:bg-gray-900/50" aria-labelledby="mission-heading">
       <div class="container-custom">
         <header class="text-center mb-16">
-          <h2 id="mission-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">Nuestra misión</h2>
-          <p class="text-gray-600 text-lg max-w-2xl mx-auto">Democratizar el acceso a la literatura de calidad mediante una plataforma digital intuitiva y accesible.</p>
+          <h2 id="mission-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-gray-100 mb-4">Nuestra misión</h2>
+          <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">Democratizar el acceso a la literatura de calidad mediante una plataforma digital intuitiva y accesible.</p>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -54,12 +54,12 @@ const stats = {
               desc: 'Búsqueda instantánea, filtros en tiempo real y carga optimizada para cualquier dispositivo.'
             }
           ].map(item => (
-            <article class="text-center p-6 rounded-xl bg-warm-50 hover:bg-warm-100 transition-colors">
-              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100 text-primary-600 mb-4">
+            <article class="text-center p-6 rounded-xl bg-warm-50 dark:bg-gray-800/50 hover:bg-warm-100 dark:hover:bg-gray-800 transition-colors">
+              <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mb-4">
                 <span set:html={item.icon} />
               </div>
-              <h3 class="font-display text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-              <p class="text-gray-600">{item.desc}</p>
+              <h3 class="font-display text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{item.title}</h3>
+              <p class="text-gray-600 dark:text-gray-400">{item.desc}</p>
             </article>
           ))}
         </div>
@@ -92,22 +92,22 @@ const stats = {
     </section>
 
     <!-- Equipo / Proyecto -->
-    <section class="section bg-white" aria-labelledby="team-heading">
+    <section class="section bg-white dark:bg-gray-900/50" aria-labelledby="team-heading">
       <div class="container-custom">
         <header class="text-center mb-12">
-          <h2 id="team-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">Proyecto escolar</h2>
-          <p class="text-gray-600 text-lg max-w-2xl mx-auto">Desarrollado como prototipo funcional para demostrar competencias en desarrollo web moderno.</p>
+          <h2 id="team-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-gray-100 mb-4">Proyecto escolar</h2>
+          <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">Desarrollado como prototipo funcional para demostrar competencias en desarrollo web moderno.</p>
         </header>
 
         <div class="max-w-3xl mx-auto space-y-8">
-          <article class="p-6 bg-warm-50 rounded-xl">
-            <h3 class="font-display text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+          <article class="p-6 bg-warm-50 dark:bg-gray-800/50 rounded-xl">
+            <h3 class="font-display text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
               <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
               </svg>
               Stack tecnológico
             </h3>
-            <ul class="space-y-2 text-gray-700">
+            <ul class="space-y-2 text-gray-700 dark:text-gray-300">
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-500 rounded-full"></span> <strong>Astro 4</strong> — Framework web moderno, rápido y SEO-friendly</li>
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-500 rounded-full"></span> <strong>Tailwind CSS</strong> — Estilos utility-first, responsive y mantenibles</li>
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-primary-500 rounded-full"></span> <strong>Alpine.js</strong> — Interactividad ligera sin build complejo</li>
@@ -116,14 +116,14 @@ const stats = {
             </ul>
           </article>
 
-          <article class="p-6 bg-warm-50 rounded-xl">
-            <h3 class="font-display text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+          <article class="p-6 bg-warm-50 dark:bg-gray-800/50 rounded-xl">
+            <h3 class="font-display text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
               <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               Funcionalidades implementadas
             </h3>
-            <ul class="space-y-2 text-gray-700">
+            <ul class="space-y-2 text-gray-700 dark:text-gray-300">
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Catálogo con 12 libros reales (datos completos)</li>
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Búsqueda en tiempo real (título, autor, ISBN, género)</li>
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Filtro por género con selector</li>
@@ -137,14 +137,14 @@ const stats = {
             </ul>
           </article>
 
-          <article class="p-6 bg-warm-50 rounded-xl">
-            <h3 class="font-display text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+          <article class="p-6 bg-warm-50 dark:bg-gray-800/50 rounded-xl">
+            <h3 class="font-display text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
               <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Próximas mejoras (ideas)
             </h3>
-            <ul class="space-y-2 text-gray-700">
+            <ul class="space-y-2 text-gray-700 dark:text-gray-300">
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Autenticación de usuarios (login/registro)</li>
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Panel de administración (CRUD libros)</li>
               <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Sistema de reseñas y valoraciones reales</li>
@@ -160,15 +160,15 @@ const stats = {
     </section>
 
     <!-- Contacto -->
-    <section class="section bg-warm-50" aria-labelledby="contact-heading">
+    <section class="section bg-warm-50 dark:bg-gray-900/50" aria-labelledby="contact-heading">
       <div class="container-custom">
         <div class="max-w-2xl mx-auto">
           <header class="text-center mb-10">
-            <h2 id="contact-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">Contacto</h2>
-            <p class="text-gray-600 text-lg">¿Tienes dudas, sugerencias o quieres colaborar? Escríbenos.</p>
+            <h2 id="contact-heading" class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-gray-100 mb-4">Contacto</h2>
+            <p class="text-gray-600 dark:text-gray-400 text-lg">¿Tienes dudas, sugerencias o quieres colaborar? Escríbenos.</p>
           </header>
 
-          <form class="bg-white rounded-xl shadow-sm p-6 md:p-8 space-y-6" action="#" method="POST">
+          <form class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 md:p-8 space-y-6" action="#" method="POST">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label for="name" class="label">Nombre</label>
@@ -197,7 +197,7 @@ const stats = {
             <button type="submit" class="btn-primary w-full md:w-auto">
               Enviar mensaje
             </button>
-            <p class="text-xs text-gray-500 text-center">Formulario de demostración — no envía emails reales.</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 text-center">Formulario de demostración — no envía emails reales.</p>
           </form>
         </div>
       </div>

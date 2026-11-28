@@ -23,8 +23,8 @@ const selectedGenre = url.searchParams.get('genre') || '';
     <div class="container-custom">
       <!-- Header del catálogo -->
       <header class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-2">Catálogo completo</h1>
-        <p class="text-gray-600 text-lg">Explora nuestra colección de {books.length} libros. Usa la búsqueda y los filtros para encontrar tu próxima lectura.</p>
+        <h1 class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-gray-100 mb-2">Catálogo completo</h1>
+        <p class="text-gray-600 dark:text-gray-400 text-lg">Explora nuestra colección de {books.length} libros. Usa la búsqueda y los filtros para encontrar tu próxima lectura.</p>
       </header>
 
       <!-- Búsqueda y filtros -->
@@ -47,12 +47,25 @@ const selectedGenre = url.searchParams.get('genre') || '';
             <BookCard book={book} variant="default" />
           ))}
         </div>
+
+        <!-- Skeleton loaders (shown during filtering) -->
+        <div id="skeleton-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" aria-live="polite" aria-busy="true">
+          {[...Array(12)].map((_, i) => (
+            <article class="skeleton-card" key={i}>
+              <div class="skeleton-image"></div>
+              <div class="skeleton-title"></div>
+              <div class="skeleton-text"></div>
+              <div class="skeleton-text w-1/2"></div>
+              <div class="skeleton h-10 w-full mt-4 rounded-lg"></div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <!-- Mensaje cuando no hay resultados (fallback sin JS) -->
       <noscript>
         <div class="text-center py-12" id="no-js-message">
-          <p class="text-gray-600">Activa JavaScript para usar la búsqueda y filtros en tiempo real.</p>
+          <p class="text-gray-600 dark:text-gray-400">Activa JavaScript para usar la búsqueda y filtros en tiempo real.</p>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
             {books.map(book => (
               <BookCard book={book} variant="default" />
@@ -65,3 +78,30 @@ const selectedGenre = url.searchParams.get('genre') || '';
 
   <Footer />
 </Layout>
+
+<script>
+  // Show skeleton loaders during filtering
+  document.addEventListener('DOMContentLoaded', () => {
+    const booksGrid = document.getElementById('books-grid');
+    const skeletonGrid = document.getElementById('skeleton-grid');
+
+    // Listen for filter events from Alpine.js
+    const observer = new MutationObserver(() => {
+      if (booksGrid && skeletonGrid) {
+        const isFiltering = booksGrid.innerHTML === '' || booksGrid.children.length === 0;
+        if (isFiltering) {
+          booksGrid.classList.add('hidden');
+          skeletonGrid.classList.remove('hidden');
+        } else {
+          booksGrid.classList.remove('hidden');
+          skeletonGrid.classList.add('hidden');
+        }
+      }
+    });
+
+    observer.observe(document.getElementById('books-grid'), {
+      childList: true,
+      subtree: true
+    });
+  });
+</script>
