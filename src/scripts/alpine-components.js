@@ -74,13 +74,13 @@ function searchFilter() {
     },
     showSkeletons() {
       this.isFiltering = true;
-      if (this.resultsContainer) this.resultsContainer.classList.add('hidden');
-      if (this.skeletonContainer) this.skeletonContainer.classList.remove('hidden');
+      if (this.resultsContainer) this.resultsContainer.style.display = 'none';
+      if (this.skeletonContainer) this.skeletonContainer.style.display = 'grid';
     },
     hideSkeletons() {
       this.isFiltering = false;
-      if (this.resultsContainer) this.resultsContainer.classList.remove('hidden');
-      if (this.skeletonContainer) this.skeletonContainer.classList.add('hidden');
+      if (this.resultsContainer) this.resultsContainer.style.display = 'grid';
+      if (this.skeletonContainer) this.skeletonContainer.style.display = 'none';
     },
     sortBooks(books) {
       const sorted = [...books];

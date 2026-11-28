@@ -49,7 +49,7 @@ const selectedGenre = url.searchParams.get('genre') || '';
         </div>
 
         <!-- Skeleton loaders (shown during filtering) -->
-        <div id="skeleton-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" aria-live="polite" aria-busy="true">
+        <div id="skeleton-grid" style="display: none;" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" aria-live="polite" aria-busy="true">
           {[...Array(12)].map((_, i) => (
             <article class="skeleton-card" key={i}>
               <div class="skeleton-image"></div>
