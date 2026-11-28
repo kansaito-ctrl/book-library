@@ -209,3 +209,98 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* PWA Install Prompt */
+.pwa-install-prompt {
+  @apply fixed bottom-4 left-4 right-4 md:bottom-6 md:left-auto md:right-6 md:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 border border-gray-200 dark:border-gray-700 z-50 animate-slide-up;
+}
+
+/* Mobile-first responsive improvements */
+@media (max-width: 640px) {
+  .container-custom {
+    @apply px-3;
+  }
+
+  .section {
+    @apply py-8;
+  }
+
+  h1 { @apply text-3xl; }
+  h2 { @apply text-2xl; }
+  h3 { @apply text-xl; }
+
+  .btn {
+    @apply px-4 py-2.5 text-sm;
+  }
+
+  .card {
+    @apply p-3;
+  }
+
+  .input {
+    @apply px-3 py-2.5 text-base; /* Prevents zoom on iOS */
+  }
+
+  /* Table responsive for comparison page */
+  .comparison-table {
+    @apply text-sm;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    @apply p-2;
+  }
+
+  /* Grid adjustments */
+  .grid-cols-1\.sm\:grid-cols-2 {
+    @apply grid-cols-1;
+  }
+
+  .grid-cols-1\.md\:grid-cols-3 {
+    @apply grid-cols-1;
+  }
+
+  .grid-cols-2\.md\:grid-cols-3\.lg\:grid-cols-4 {
+    @apply grid-cols-1 sm:grid-cols-2;
+  }
+}
+
+/* Touch-friendly targets */
+@media (hover: none) and (pointer: coarse) {
+  .btn,
+  a,
+  button,
+  select,
+  input[type="checkbox"],
+  input[type="radio"] {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  .card:hover {
+    @apply transform-none shadow-md; /* Disable hover effects on touch */
+  }
+}
+
+/* Safe area for notched devices */
+@supports (padding: max(0px)) {
+  .safe-top { padding-top: max(1rem, env(safe-area-inset-top)); }
+  .safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+  .safe-left { padding-left: max(1rem, env(safe-area-inset-left)); }
+  .safe-right { padding-right: max(1rem, env(safe-area-inset-right)); }
+}
+
+/* Print styles for comparison page */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .comparison-table {
+    @apply text-base;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    @apply border border-gray-300;
+  }
+}
