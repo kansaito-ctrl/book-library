@@ -70,7 +70,7 @@ function searchFilter() {
         this.renderResults();
         this.updateResultsText();
         this.hideSkeletons();
-      }, 500);
+      }, 1000);
     },
     showSkeletons() {
       this.isFiltering = true;
