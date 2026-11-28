@@ -14,6 +14,7 @@ const { genres, selectedGenre = '', searchQuery = '' } = Astro.props;
   - Búsqueda en tiempo real (debounced)
   - Filtro por género
   - Contador de resultados
+  - Skeleton loaders durante filtrado
 -->
 
 <section class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 md:p-6 mb-6" x-data="searchFilter()" x-init="init()">
@@ -120,13 +121,16 @@ const { genres, selectedGenre = '', searchQuery = '' } = Astro.props;
       sortBy: 'relevance',
       allBooks: [],
       filteredBooks: [],
+      isFiltering: false,
 
-      // Referencia al contenedor de resultados
+      // Referencias
       resultsContainer: null,
+      skeletonContainer: null,
 
       init() {
         // Cargar libros desde el data attribute del contenedor principal
         this.resultsContainer = document.getElementById('books-grid');
+        this.skeletonContainer = document.getElementById('skeleton-grid');
         if (this.resultsContainer) {
           this.allBooks = JSON.parse(this.resultsContainer.dataset.books || '[]');
           this.filteredBooks = [...this.allBooks];
@@ -142,31 +146,52 @@ const { genres, selectedGenre = '', searchQuery = '' } = Astro.props;
 
       // Filtrar y ordenar libros
       filterBooks() {
-        let results = [...this.allBooks];
+        // Mostrar skeletons inmediatamente
+        this.showSkeletons();
 
-        // Filtro búsqueda
-        if (this.searchQuery.trim()) {
-          const query = this.searchQuery.toLowerCase().trim();
-          results = results.filter(book =>
-            book.title.toLowerCase().includes(query) ||
-            book.author.toLowerCase().includes(query) ||
-            book.isbn?.includes(query) ||
-            book.genre.toLowerCase().includes(query)
-          );
-        }
+        // Pequeño delay para que se vean los skeletons (simula carga)
+        setTimeout(() => {
+          let results = [...this.allBooks];
 
-        // Filtro género
-        if (this.selectedGenre) {
-          results = results.filter(book => book.genre === this.selectedGenre);
-        }
+          // Filtro búsqueda
+          if (this.searchQuery.trim()) {
+            const query = this.searchQuery.toLowerCase().trim();
+            results = results.filter(book =>
+              book.title.toLowerCase().includes(query) ||
+              book.author.toLowerCase().includes(query) ||
+              book.isbn?.includes(query) ||
+              book.genre.toLowerCase().includes(query)
+            );
+          }
 
-        // Ordenación
-        results = this.sortBooks(results);
+          // Filtro género
+          if (this.selectedGenre) {
+            results = results.filter(book => book.genre === this.selectedGenre);
+          }
 
-        this.filteredBooks = results;
-        this.updateURL();
-        this.renderResults();
-        this.updateResultsText();
+          // Ordenación
+          results = this.sortBooks(results);
+
+          this.filteredBooks = results;
+          this.updateURL();
+          this.renderResults();
+          this.updateResultsText();
+
+          // Ocultar skeletons
+          this.hideSkeletons();
+        }, 150); // Delay visible para UX
+      },
+
+      showSkeletons() {
+        this.isFiltering = true;
+        if (this.resultsContainer) this.resultsContainer.classList.add('hidden');
+        if (this.skeletonContainer) this.skeletonContainer.classList.remove('hidden');
+      },
+
+      hideSkeletons() {
+        this.isFiltering = false;
+        if (this.resultsContainer) this.resultsContainer.classList.remove('hidden');
+        if (this.skeletonContainer) this.skeletonContainer.classList.add('hidden');
       },
 
       sortBooks(books) {

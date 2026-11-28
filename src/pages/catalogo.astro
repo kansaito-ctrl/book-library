@@ -78,30 +78,3 @@ const selectedGenre = url.searchParams.get('genre') || '';
 
   <Footer />
 </Layout>
-
-<script>
-  // Show skeleton loaders during filtering
-  document.addEventListener('DOMContentLoaded', () => {
-    const booksGrid = document.getElementById('books-grid');
-    const skeletonGrid = document.getElementById('skeleton-grid');
-
-    // Listen for filter events from Alpine.js
-    const observer = new MutationObserver(() => {
-      if (booksGrid && skeletonGrid) {
-        const isFiltering = booksGrid.innerHTML === '' || booksGrid.children.length === 0;
-        if (isFiltering) {
-          booksGrid.classList.add('hidden');
-          skeletonGrid.classList.remove('hidden');
-        } else {
-          booksGrid.classList.remove('hidden');
-          skeletonGrid.classList.add('hidden');
-        }
-      }
-    });
-
-    observer.observe(document.getElementById('books-grid'), {
-      childList: true,
-      subtree: true
-    });
-  });
-</script>
