@@ -4,8 +4,6 @@ interface Props {
   description?: string;
 }
 
-import PWAInstallPrompt from '../components/PWAInstallPrompt.astro';
-
 const { title, description = "Prototipo de librería de libros para escuela - Catálogo, reseñas y más" } = Astro.props;
 ---
 
@@ -45,8 +43,96 @@ const { title, description = "Prototipo de librería de libros para escuela - Ca
 
     <slot />
 
-    <!-- PWA Install Prompt -->
-    <PWAInstallPrompt client:visible />
+    <!-- PWA Install Prompt (inlined) -->
+    <div id="pwa-install-prompt" class="pwa-install-prompt hidden" role="dialog" aria-labelledby="pwa-prompt-title" aria-describedby="pwa-prompt-desc">
+      <div class="flex items-start gap-3">
+        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+          <svg class="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 id="pwa-prompt-title" class="font-semibold text-gray-900 dark:text-gray-100">Instalar BiblioEscuela</h3>
+          <p id="pwa-prompt-desc" class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            Añade la app a tu pantalla de inicio para acceso rápido y uso offline.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2 mt-3">
+          <button
+            type="button"
+            id="pwa-install-btn"
+            class="btn-primary w-full sm:w-auto"
+          >
+            Instalar
+          </button>
+          <button
+            type="button"
+            id="pwa-dismiss-btn"
+            class="btn-secondary w-full sm:w-auto"
+          >
+            Ahora no
+          </button>
+        </div>
+        <button
+          type="button"
+          id="pwa-close-btn"
+          class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+          aria-label="Cerrar"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let deferredPrompt = null;
+
+      // Listen for beforeinstallprompt event
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Show prompt after a delay
+        setTimeout(() => {
+          const prompt = document.getElementById('pwa-install-prompt');
+          if (prompt && !localStorage.getItem('pwa-dismissed')) {
+            prompt.classList.remove('hidden');
+          }
+        }, 30000); // Show after 30 seconds
+      }
+
+      // Handle install button
+      document.addEventListener('click', async (e) => {
+        if (e.target.id === 'pwa-install-btn' && deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            console.log('PWA installed');
+            localStorage.setItem('pwa-installed', 'true');
+          }
+          deferredPrompt = null;
+          document.getElementById('pwa-install-prompt')?.classList.add('hidden');
+        }
+
+        if (e.target.id === 'pwa-dismiss-btn') {
+          localStorage.setItem('pwa-dismissed', 'true');
+          document.getElementById('pwa-install-prompt')?.classList.add('hidden');
+        }
+
+        if (e.target.id === 'pwa-close-btn') {
+          document.getElementById('pwa-install-prompt')?.classList.add('hidden');
+        }
+      });
+
+      // Hide prompt if already installed
+      window.addEventListener('appinstalled', () => {
+        console.log('PWA installed');
+        localStorage.setItem('pwa-installed', 'true');
+        document.getElementById('pwa-install-prompt')?.classList.add('hidden');
+      });
+    </script>
 
     <!-- Alpine.js components registration (runs before Alpine) -->
     <script is:inline src="/scripts/alpine-components.js"></script>
