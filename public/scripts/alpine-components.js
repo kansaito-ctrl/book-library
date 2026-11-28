@@ -22,6 +22,7 @@ function searchFilter() {
     searchQuery: '',
     selectedGenre: '',
     sortBy: 'relevance',
+    genres: [],
     allBooks: [],
     filteredBooks: [],
     isFiltering: false,
@@ -33,6 +34,13 @@ function searchFilter() {
       if (this.resultsContainer) {
         this.allBooks = JSON.parse(this.resultsContainer.dataset.books || '[]');
         this.filteredBooks = [...this.allBooks];
+      }
+      // Leer géneros del select en el DOM
+      const genreSelect = document.getElementById('genre-select');
+      if (genreSelect) {
+        this.genres = Array.from(genreSelect.options)
+          .map(opt => opt.value)
+          .filter(v => v !== '');
       }
       const params = new URLSearchParams(window.location.search);
       this.searchQuery = params.get('q') || '';
