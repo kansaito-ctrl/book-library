@@ -149,7 +149,7 @@ const { genres, selectedGenre = '', searchQuery = '' } = Astro.props;
         // Mostrar skeletons inmediatamente
         this.showSkeletons();
 
-        // Pequeño delay para que se vean los skeletons (simula carga)
+        // Delay visible para UX (500ms para que se noten los skeletons)
         setTimeout(() => {
           let results = [...this.allBooks];
 
