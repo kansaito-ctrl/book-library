@@ -95,7 +95,7 @@ const relatedBooks = books.filter(b => b.genre === book.genre && b.id !== book.i
                 <button
                   type="button"
                   class="btn-secondary w-full text-center gap-2 justify-center"
-                  x-data="favoriteButton()"
+                  x-data="favoriteButton"
                   @click="toggle($event)"
                   :class="{ 'bg-amber-500 text-gray-900 border-amber-500': isFavorite }"
                   :aria-label="isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'"

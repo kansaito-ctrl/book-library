@@ -29,7 +29,7 @@
           type="button"
           class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           aria-label="Cambiar tema"
-          x-data="themeToggle()"
+          x-data="themeToggle"
           @click="toggle()"
           :aria-label="isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
         >
@@ -80,22 +80,3 @@
     </div>
   </nav>
 </header>
-
-<script>
-  // Alpine.js component for theme toggle
-  function themeToggle() {
-    return {
-      isDark: false,
-
-      init() {
-        this.isDark = document.documentElement.classList.contains('dark');
-      },
-
-      toggle() {
-        this.isDark = !this.isDark;
-        document.documentElement.classList.toggle('dark', this.isDark);
-        localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-      }
-    }
-  }
-</script>

@@ -135,7 +135,7 @@ const isFeatured = variant === 'featured';
       <button
         type="button"
         class="btn-secondary w-full text-center gap-2 justify-center"
-        x-data="favoriteButton()"
+        x-data="favoriteButton"
         @click="toggle($event)"
         :class="{ 'bg-amber-500 text-gray-900 border-amber-500': isFavorite }"
         :aria-label="isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'"
@@ -157,79 +157,6 @@ const isFeatured = variant === 'featured';
     </div>
   </div>
 </article>
-
-<script>
-  // Alpine.js component for favorite button with toast
-  function favoriteButton() {
-    return {
-      isFavorite: false,
-
-      init() {
-        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        this.isFavorite = favorites.includes(this.$el.closest('article').querySelector('h3 a').href);
-      },
-
-      toggle(event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const article = this.$el.closest('article');
-        const link = article.querySelector('h3 a');
-        const bookUrl = link.href;
-        const bookTitle = link.textContent.trim();
-
-        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-        const index = favorites.indexOf(bookUrl);
-
-        if (index > -1) {
-          favorites.splice(index, 1);
-          this.isFavorite = false;
-          this.showToast(`${bookTitle} eliminado de favoritos`, 'info');
-        } else {
-          favorites.push(bookUrl);
-          this.isFavorite = true;
-          this.showToast(`${bookTitle} añadido a favoritos`, 'success');
-        }
-
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-      },
-
-      showToast(message, type = 'info') {
-        const container = document.getElementById('toast-container');
-        if (!container) return;
-
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type} pointer-events-auto`;
-        toast.setAttribute('role', 'alert');
-        toast.setAttribute('aria-live', 'polite');
-        toast.innerHTML = `
-          <span>${message}</span>
-          <button type="button" class="ml-4 text-white/80 hover:text-white transition-opacity" aria-label="Cerrar">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        `;
-
-        // Add close handler
-        toast.querySelector('button').addEventListener('click', () => {
-          toast.classList.add('animate-slide-out');
-          setTimeout(() => toast.remove(), 200);
-        });
-
-        container.appendChild(toast);
-
-        // Auto remove after 4 seconds
-        setTimeout(() => {
-          if (toast.parentElement) {
-            toast.classList.add('animate-slide-out');
-            setTimeout(() => toast.remove(), 200);
-          }
-        }, 4000);
-      }
-    }
-  }
-</script>
 
 <style>
   .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }

@@ -38,8 +38,11 @@ const { title, description = "Prototipo de librería de libros para escuela - Ca
 
     <slot />
 
-    <!-- Alpine.js para interactividad ligera -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine.js components registration (runs before Alpine) -->
+    <script src="/scripts/alpine-components.js"></script>
+
+    <!-- Alpine.js local (evita bloqueos de CDN) -->
+    <script defer src="/alpine.min.js"></script>
 
     <!-- Toast container -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none" aria-live="polite" aria-atomic="true"></div>
