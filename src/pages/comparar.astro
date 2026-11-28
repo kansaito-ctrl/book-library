@@ -57,7 +57,7 @@ const selectedBooks = [book1, book2, book3].filter(Boolean) as typeof books;
                 ))}
               </select>
             </div>
-          )}
+          ))}
         </div>
         <div class="mt-4 text-center">
           <a
@@ -101,7 +101,7 @@ const selectedBooks = [book1, book2, book3].filter(Boolean) as typeof books;
                         <a href={`/libro/${book.slug}`} class="btn-secondary text-xs mt-1">Ver ficha</a>
                       </div>
                     </th>
-                  )}
+                  ))}
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
@@ -201,7 +201,7 @@ const selectedBooks = [book1, book2, book3].filter(Boolean) as typeof books;
             </table>
           </div>
         </section>
-      }
+      )}
 
       {selectedBooks.length === 0 && (
         <section class="text-center py-16" aria-labelledby="empty-heading">
